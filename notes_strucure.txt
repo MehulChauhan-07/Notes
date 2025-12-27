@@ -1,0 +1,18 @@
+mern-auth-notes/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js
+│   │   ├── models/
+│   │   │   ├── User.js
+│   │   │   └── Note.js
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   └── note.routes.js
+│   │   ├── middleware/
+│   │   │   └── auth.middleware.js
+│   │   ├── controllers/
+│   │   ├── app.js
+│   │   └── server.js
+│   └── .env
+└── frontend/ (later)
