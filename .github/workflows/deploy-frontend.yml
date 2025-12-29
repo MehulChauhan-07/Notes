@@ -1,11 +1,9 @@
-name: Build & Deploy Frontend
+name: Deploy Frontend to Kubernetes
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - frontend/**
+    tags:
+      - v*
 
 jobs:
   deploy:
@@ -15,26 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Login to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Build Docker image
-        run: |
-          docker build \
-            -t ghcr.io/mehulchauhan-07/notes-frontend:${{ github.sha }} \
-            ./frontend
-
-      - name: Push Docker image
-        run: |
-          docker push ghcr.io/mehulchauhan-07/notes-frontend:${{ github.sha }}
-
       - name: Setup kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
-      - name: Deploy to Kubernetes
+      - name: Deploy frontend image
         run: |
           kubectl set image deployment/frontend \
-            frontend=ghcr.io/mehulchauhan-07/notes-frontend:${{ github.sha }} \
+            frontend=ghcr.io/mehulchauhan-07/notes-frontend:${{ github.ref_name }} \
             -n notes
+
+      - name: Verify rollout
+        run: |
+          kubectl rollout status deployment/frontend -n notes
