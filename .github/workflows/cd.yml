@@ -31,5 +31,4 @@ jobs:
         run: |
            docker build \
             --build-arg VITE_API_URL=/api \
-            -t ghcr.io/$OWNER_LOWER/notes-frontend:${{ github.ref_name }} ./frontend
-          docker push ghcr.io/$OWNER_LOWER/notes-frontend:${{ github.ref_name }}
+            -t ghcr.io/$OWNER_LOWER/notes-frontend:${{ github.ref_name }} ./frontend docker push ghcr.io/$OWNER_LOWER/notes-frontend:${{ github.ref_name }}
